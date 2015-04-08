@@ -62,12 +62,14 @@ public class Parser {
 		BufferedWriter writer2 = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("data/chemicalOutput.txt"), "utf-8"));
 		BufferedWriter JSONwriter1 = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("data/facilities.json"), "utf-8"));
 		BufferedWriter JSONwriter2 = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("data/chemicals.json"), "utf-8"));
+		BufferedWriter JSONwriter3 = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("data/special.json"), "utf-8"));
+		BufferedWriter CSVwriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("data/special.csv"), "utf-8"));
 		
 		try {
 			System.out.println("printing...");
 			
-		 	Integer i, j;
-		 	i = j = 0;
+		 	Integer i, j, k;
+		 	i = j = k = 0;
 		 	
 	    	fList.moveToStart();
 	    	fList.next();
@@ -96,25 +98,40 @@ public class Parser {
 	    	JSONwriter1.write("] }");
 	    	
 	    	JSONwriter2.write("{ \"chemicals\" : [");
+	    	//JSONwriter3.write("{ \"special\" : [");
+	    	CSVwriter.write("chemicalName, chemical ,air,water ,underground,landfill,surface,offsite,other,totalReleases,facilities\n");
+			
+	    	
 	    	while(j < cList.length()) {
 	    		//System.out.println(fList.getCurrent().element().getData());
 		    	
 	    		if(cList.getCurrent().element() == null)
 		    		System.out.println("null chemical element in list curr");
-		    	
+	    		
+	    		//System.out.println(cList.getCurrent().element().getChemicalName().toString().toLowerCase());
+	    		if(cList.getCurrent().element().getChemicalName().toString().toLowerCase().contains("nitrate") || cList.getCurrent().element().getChemicalName().toString().toLowerCase().contains("benzene") || cList.getCurrent().element().getChemicalName().toString().toLowerCase().contains("nickel")) {
+	    			//JSONwriter3.write("{" + cList.getCurrent().element().getMoreJSON() + "}");
+	    			CSVwriter.write(cList.getCurrent().element().getMoreCSV() + "\n");
+//	    			if(k < 19)
+//	    				JSONwriter3.write(", ");
+    			k++;
+	    		}
+	    		
 	    		writer2.write(cList.getCurrent().element().getData() + "\n");
 
 		    	JSONwriter2.write("{" + cList.getCurrent().element().getJSON() + "}");
 		    	
-		    	if(j < cList.length() - 1)
-		    		JSONwriter2.write(",");
+		    	if(j < cList.length() - 1) {
+		    		JSONwriter2.write(", ");
+		    	}
 	    		
 		    	j++;
 		    	cList.next();
 	    	}
 	    	JSONwriter2.write("] }");
+	    	//JSONwriter3.write("] }");
     	
-	    	System.out.println("Finished writing " + i + " facilities and " + j + " chemicals to data file!");
+	    	System.out.println("Finished writing " + i + " facilities, " + j + " chemicals, and " + k + " special to data file!");
 	       	    
 		} catch (IOException ex) {
 			System.out.println("Error creating or writing to file: " + ex);
@@ -123,6 +140,8 @@ public class Parser {
 	    	try {JSONwriter1.close();} catch (Exception ex) {}
 	    	try {writer2.close();} catch (Exception ex) {}
 	    	try {JSONwriter2.close();} catch (Exception ex) {}
+	    	try {JSONwriter3.close();} catch (Exception ex) {}
+	    	try {CSVwriter.close();} catch (Exception ex) {}
 	    }
 	}
 }

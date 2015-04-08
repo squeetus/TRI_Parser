@@ -5,7 +5,7 @@ public class Facility {
 	 *********************************************************/
 	private String facilityName;
 	private String chemicals;
-	private Float latitude, longitude, totalReleases;
+	private Float latitude, longitude, air, water, underground, landfill, surface, other, offsite, totalReleases;
 	private Integer flags = 0; 
 	
 	Facility(DataLine d) {
@@ -19,6 +19,13 @@ public class Facility {
 			latitude = 0f;
 			longitude = 0f;
 		}
+		air = d.getAir();
+		water = d.getWater();
+		underground = d.getUnderground();
+		landfill = d.getLandfill();
+		surface = d.getSurface();
+		other = d.getOther();
+		offsite = d.getOffsite();
 	}
 	
 	/*********************************************************
@@ -44,6 +51,34 @@ public class Facility {
 		return longitude;
 	}
 	
+	public void addAir(Float a) {
+		air += a;
+	}
+	
+	public void addWater(Float w) {
+		water += w;
+	}
+	
+	public void addUnderground(Float u) {
+		underground += u;
+	}
+	
+	public void addLandfill(Float l) {
+		landfill += l;
+	}
+	
+	public void addSurface(Float s) {
+		surface += s;
+	}
+	
+	public void addOffsite(Float off) {
+		offsite += off;
+	}
+	
+	public void addOther(Float o) {
+		other += o;
+	}
+	
 	public Float getTotalReleases() {
 		return totalReleases;
 	}
@@ -62,7 +97,7 @@ public class Facility {
 	public String getJSON() {
 		String json = "";
 		String[] c = chemicals.split("\t");
-		json += "\"facilityName\": \"" + facilityName + "\", \"lat\": \"" + latitude + "\", \"long\": \"" + longitude + "\", \"totalReleases\": \"" + totalReleases + "\", \"chemicals\": [";
+		json += "\"facilityName\": \"" + facilityName + "\", \"lat\": \"" + latitude + "\", \"long\": \"" + longitude + "\", \"air\": \"" + air + "\", \"water\": \"" + water + "\", \"underground\": \"" + underground + "\", \"landfill\": \"" + landfill + "\", \"surface\": \"" + surface + "\", \"offsite\": \"" + offsite + "\", \"other\": \"" + other + "\", \"totalReleases\": \"" + totalReleases + "\", \"chemicals\": [";
 		for(Integer i = 0; i < c.length; i++ ) {
 			json += "\"" + c[i].replace("\"", "") + "\"";
 			if(i < c.length - 1)

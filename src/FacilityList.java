@@ -61,6 +61,13 @@ public class FacilityList extends SLList<Facility> {
 				f = curr.next().element();
 				f.addChemical(d.getChemicalName());
 				f.addReleases(d.getTotalReleases());
+				f.addAir(d.getAir());
+				f.addWater(d.getWater());
+				f.addUnderground(d.getUnderground());
+				f.addLandfill(d.getLandfill());
+				f.addSurface(d.getSurface());
+				f.addOffsite(d.getOffsite());
+				f.addOther(d.getOther());
 				return;
 			}
 			// found insertion point, insert facility

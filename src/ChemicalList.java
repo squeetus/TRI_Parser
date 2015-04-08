@@ -62,6 +62,14 @@ public class ChemicalList extends SLList<Chemical> {
 				c = curr.next().element();
 				c.addFacility(d.getFacilityName());
 				c.addReleases(d.getTotalReleases());
+				c.addAir(d.getAir());
+				c.addWater(d.getWater());
+				c.addUnderground(d.getUnderground());
+				c.addLandfill(d.getLandfill());
+				c.addSurface(d.getSurface());
+				c.addOffsite(d.getOffsite());
+				c.addOther(d.getOther());
+				
 				return;
 			}
 			// found insertion point, insert Chemical
